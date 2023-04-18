@@ -1,0 +1,17 @@
+class Viagem:
+    def _init_(self,nota_viagem:int, distancia:float, valor:float, passageiro: Passageiro):
+     self.nota_viagem = nota_viagem     
+     self.distancia = distancia
+     self.valor = valor 
+     self.passageiro = passageiro
+
+class Motorista: 
+    def _init_(self, nota_motorista:int, viagens:tuple):
+     self.nota_motorista =nota_motorista
+     self.viagens = viagens 
+    
+
+class Passageiro:
+   def _init_(self,nome:str,doc:str):
+     self.nome =nome
+     self.doc = doc

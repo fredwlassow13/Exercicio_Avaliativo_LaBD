@@ -1,0 +1,78 @@
+from pymongo import MongoClient
+from classes import Viagem, Motorista, Passageiro 
+from bson.objectid import ObjectId
+
+
+class MotoristaDAO:
+    def _init_(self, database):
+        self.db = database
+
+    def create_motorista(self, database):
+        try:
+            motorista_info = {
+
+            "Nota_do_Motorista" : motorista.nota_motorista,
+            "Viagens" : [
+               {
+                "Nota_da_viagem" : viagem.nota_viagem,
+                "Distancia" : distancia.viagem,
+                "valor" : valor.viagem,
+                "passageiro": {
+                   "nome" : nome.passageiro.viagem,
+                   "doc" : dococumento.passageiro.viagem
+                   
+                }
+               } for viagem in motorista.viagem
+              ]
+            } 
+            res = self.db,collection.insert_one(motorista_info)
+            print(f"Motorista criado com o id: {res.inserted_id}")
+            return res.inserted_id
+        except Exception as e :
+            print(f"Houve um erro ao criar o motorista: {e}")
+            return None
+        
+    def read_motorista_by_id(self, id: str):
+        try:
+            motorista_info = self.db.collection.find_one({"_id": ObjectId(id)})
+            if(motorista_info):
+                notas = motorista_info['Nota_do_motorista']
+                viagens_info = motorista_info['Viagens']
+                viagens = [Viagem(viagem_info['Nota_da_viagem'], viagem_info['Distancia'], viagem_info['valor'], Passageiro(viagem_info['passageiro']['nome'], viagem_info['passageiro']['documento'])) for viagem_info in viagens_info]
+            print(f"Motorista found: {motorista_info}")
+            return Motorista(notas, viagens)
+        except Exception as e:
+            print(f"Um erro ocorreu ao ler motorista: {e}")
+            return None
+        
+    def update_motorista(self, motorista, motorista_id):
+        try: 
+            motorista_info = {
+                'Nota_do_Motorista': motorista.nota_motorista,
+                'Viagens': [
+                         'Nota_da_viagem': viagem.nota_viagem
+                         'Distancia': distancia.viagem,
+                         'valor': valor.viagem,
+                         'passageiro': {
+                            'nome': nome.passageiro.viagem,
+                            'documento': documento.passageiro.viagem
+                         }
+                     } for viagem in motorista.viagens
+                ]   
+            }
+
+            res = self.db.collection.update_one({"_id": ObjectId(motorista_id)}, {"$set": motorista_info})
+            print(f"Motorista atualizado: {res.modified_count} documento(s) modificado(s)")
+            return res.modified_count
+        except Exception as e: 
+            print(f"Ocorreu um erro ao atualizar o motorista: {e}")
+            return None
+
+    def delete_motorista(self, id: str):
+        try:
+            res = self.db.collection.delete_one({"_id": ObjectId(id)})
+            print(f"Motorista deletado: {res.deleted_count} documento(s) deletado(s)")
+            return res.deleted_count
+        except Exception as e:
+            print(f"Ocorreu um erro ao deletar o motorista: {e}")
+            return None

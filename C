@@ -1,0 +1,8 @@
+from database import Database
+from MotoristaDAO import MotoristaDAO
+from MotoristaC import MotoristaCLI
+
+db = Database(database="Atividade_Avaliativa_1")
+MotoristaDAO = MotoristaDAO(Database=db)
+MotoristaC = MotoristaC(Database=db)
+MotoristaC.run()
